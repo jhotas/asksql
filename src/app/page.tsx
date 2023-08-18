@@ -61,7 +61,7 @@ export default function Home() {
           id="question"
           value={input}
           onChange={handleInputChange}
-          className='my-4 bg-blueberry-600 border border-blueberry-300 rounded-md focus:ring-1 focus:ring-lime-600' 
+          className='my-4 h-20 px-4 py-3 bg-blueberry-600 border border-blueberry-300 rounded-md focus:ring-1 focus:ring-lime-600'
         />
 
         <button type="submit" className='flex items-center justify-center rounded-lg
@@ -73,11 +73,8 @@ export default function Home() {
 
       <div className='mt-6'>
         <span className='text-lg font-light text-foam'>
-          Faça uma pergunta sobre o código:
+          Resultado:
         </span>
-        <textarea 
-          readOnly 
-        />
 
         {/* <Editor
           readOnly
@@ -90,6 +87,7 @@ export default function Home() {
         /> */}
 
         <textarea 
+          readOnly
           name="question"
           id="question"
           value={result}
