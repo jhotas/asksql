@@ -11,9 +11,9 @@ const openai = new OpenAI({
  
 export async function POST(req: Request) {
   // Extract the `messages` from the body of the request
-  const { schema, question } = await req.json()
+  const { schema, prompt } = await req.json()
 
-  const prompt = `
+  const message = `
     O seu trabalho é criar queries em SQL a partir de um schema SQL abaixo.
 
     Schema SQL:
@@ -22,8 +22,9 @@ export async function POST(req: Request) {
     """
 
     A partir do schema, escreva uma query SQL a partir da solicitação abaixo.
+    Me retorne SOMENTE o código SQL, nada além disso.
 
-    Solicitação: ${question}
+    Solicitação: ${prompt}
   `.trim()
  
   // Request the OpenAI API for the response based on the prompt
@@ -31,7 +32,7 @@ export async function POST(req: Request) {
     model: 'gpt-3.5-turbo',
     stream: true,
     messages: [
-        { role: 'user', content: prompt }
+        { role: 'user', content: message }
     ]
   })
  

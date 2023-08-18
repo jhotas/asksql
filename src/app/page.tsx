@@ -10,12 +10,10 @@ import 'prismjs/themes/prism-dark.css'
 
 export default function Home() {
   const [schema, setSchema] = useState('')
-  const [question, setQuestion] = useState('')
 
-  const { completion, handleSubmit } =  useCompletion({
+  const { completion, handleSubmit, input, handleInputChange } =  useCompletion({
     api: '/api/generate-sql',
     body: {
-      question,
       schema,
     },
   })
@@ -61,8 +59,8 @@ export default function Home() {
         <textarea 
           name="question"
           id="question"
-          value={question}
-          onChange={e => setQuestion(e.target.value)}
+          value={input}
+          onChange={handleInputChange}
           className='my-4 bg-blueberry-600 border border-blueberry-300 rounded-md focus:ring-1 focus:ring-lime-600' 
         />
 
@@ -81,15 +79,21 @@ export default function Home() {
           readOnly 
         />
 
-        <Editor
-          textareaId='schema'
+        {/* <Editor
           readOnly
           value={result}
           onValueChange={() => {}}
           highlight={code => highlight(code, languages.sql, 'sql')}
           padding={16}
-          textareaClassName='outline-none'
+          textareaClassName='outline-none text-foam'
           className='my-4 h-40 font-mono bg-blueberry-600 border border-blueberry-300 rounded-md'
+        /> */}
+
+        <textarea 
+          name="question"
+          id="question"
+          value={result}
+          className='my-4 font-mono w-full h-40 text-foam bg-blueberry-600 border border-blueberry-300 rounded-md focus:ring-1 focus:ring-lime-600' 
         />
       </div>
     </div>
