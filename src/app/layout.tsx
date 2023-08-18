@@ -17,7 +17,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} ${ubuntuMono.variable}`}>
-        <body className='bg-blueberry'>
+        <body className='bg-blueberry-900'>
             {children}
         </body>
     </html>

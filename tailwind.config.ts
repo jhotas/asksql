@@ -26,7 +26,6 @@ const config: Config = {
             800: '#387783',
             900: '#2b5b64',
         },
-
         lime: {
             50: '#eaffe7',
             100: '#beffb3',
@@ -39,7 +38,6 @@ const config: Config = {
             800: '#198c06',
             900: '#136b05',
         },
-
         gum: {
             50: '#fff2f9',
             100: '#fed5ed',
@@ -52,8 +50,11 @@ const config: Config = {
             800: '#8b426c',
             900: '#6a3252',
         },
-
-        blueberry: '#07061D',
+        blueberry: {
+            300: '#323842',
+            600: '#151A2A',
+            900: '#07061D',
+        },
         background: '#030712',
         pistachio: '#D3FFCC',
         cream: '#E2DFCD',

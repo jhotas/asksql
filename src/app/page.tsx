@@ -1,8 +1,29 @@
+'use client'
+
+import  { useState } from 'react'
 import { Trash2, Stars } from 'lucide-react'
+import { useCompletion } from 'ai/react'
+import Editor from 'react-simple-code-editor'
+import { highlight, languages } from 'prismjs'
+import 'prismjs/components/prism-sql'
+import 'prismjs/themes/prism-dark.css'
 
 export default function Home() {
+  const [schema, setSchema] = useState('')
+  const [question, setQuestion] = useState('')
+
+  const { completion, handleSubmit } =  useCompletion({
+    api: '/api/generate-sql',
+    body: {
+      question,
+      schema,
+    },
+  })
+
+  const result = completion
+
   return (
-    <div className='max-w-[430px] mx-auto pt-12 pb-4'>
+    <div className='max-w-[430px] mx-auto px-4 pt-12 pb-4'>
       <header className='flex items-center justify-between'>
         <svg width="118" height="27" viewBox="0 0 118 27" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M8.97247 1.81415C3.94134 1.81415 0 4.16838 0 7.17337V16.3606C0 19.3656 3.94134 21.7198 8.97247 21.7198C14.0036 21.7198 17.9449 19.3656 17.9449 16.3606V7.17337C17.9449 4.16838 14.0036 1.81415 8.97247 1.81415ZM16.4495 11.767C16.4495 12.6876 15.713 13.6264 14.4298 14.3432C12.9848 15.15 11.0464 15.595 8.97247 15.595C6.89852 15.595 4.96009 15.15 3.51515 14.3432C2.2319 13.6264 1.49541 12.6876 1.49541 11.767V10.1745C3.08989 11.61 5.81622 12.5326 8.97247 12.5326C12.1287 12.5326 14.855 11.6062 16.4495 10.1745V11.767ZM3.51515 4.59712C4.96009 3.79036 6.89852 3.34535 8.97247 3.34535C11.0464 3.34535 12.9848 3.79036 14.4298 4.59712C15.713 5.31391 16.4495 6.25273 16.4495 7.17337C16.4495 8.09401 15.713 9.03283 14.4298 9.74963C12.9848 10.5564 11.0464 11.0014 8.97247 11.0014C6.89852 11.0014 4.96009 10.5564 3.51515 9.74963C2.2319 9.03283 1.49541 8.09401 1.49541 7.17337C1.49541 6.25273 2.2319 5.31391 3.51515 4.59712ZM14.4298 18.9369C12.9848 19.7436 11.0464 20.1886 8.97247 20.1886C6.89852 20.1886 4.96009 19.7436 3.51515 18.9369C2.2319 18.2201 1.49541 17.2812 1.49541 16.3606V14.7682C3.08989 16.2037 5.81622 17.1262 8.97247 17.1262C12.1287 17.1262 14.855 16.1998 16.4495 14.7682V16.3606C16.4495 17.2812 15.713 18.2201 14.4298 18.9369Z" fill="#2DFF0B"/>
@@ -19,23 +40,57 @@ export default function Home() {
         </button>
       </header>
 
-      
-      <form className='flex flex-col py-8 w-full'>
-        <label htmlFor="schema">Cole seu código SQL aqui:</label>
-        <textarea name="schema" id="schema" />
+      <form onSubmit={handleSubmit} className='flex flex-col py-8 w-full text-foam'>
+        <label htmlFor="schema" className='text-lg font-light'>
+          Cole seu código SQL aqui:
+        </label>
 
-        <label htmlFor="question">Faça uma pergunta sobre o código:</label>
-        <textarea name="question" id="question" />
+        <Editor
+          textareaId='schema'
+          value={schema}
+          onValueChange={code => setSchema(code)}
+          highlight={code => highlight(code, languages.sql, 'sql')}
+          padding={16}
+          textareaClassName='outline-none'
+          className='my-4 h-40 font-mono bg-blueberry-600 border border-blueberry-300 rounded-md px-4 py-3 focus-within:ring-1focus-within:ring-lime-600'
+        />
 
-        <button type="submit" className='text-pistachio'>
+        <label htmlFor="question" className='text-lg font-light'>
+          Faça uma pergunta sobre o código:
+        </label>
+        <textarea 
+          name="question"
+          id="question"
+          value={question}
+          onChange={e => setQuestion(e.target.value)}
+          className='my-4 bg-blueberry-600 border border-blueberry-300 rounded-md focus:ring-1 focus:ring-lime-600' 
+        />
+
+        <button type="submit" className='flex items-center justify-center rounded-lg
+        border border-pistachio h-14 gap-2 text-pistachio'>
           <Stars className='h-6 w-6'/>
           Perguntar à inteligência artificial
         </button>
       </form>
 
-      <div>
-        <span>Resposta:</span>
-        <textarea />
+      <div className='mt-6'>
+        <span className='text-lg font-light text-foam'>
+          Faça uma pergunta sobre o código:
+        </span>
+        <textarea 
+          readOnly 
+        />
+
+        <Editor
+          textareaId='schema'
+          readOnly
+          value={result}
+          onValueChange={() => {}}
+          highlight={code => highlight(code, languages.sql, 'sql')}
+          padding={16}
+          textareaClassName='outline-none'
+          className='my-4 h-40 font-mono bg-blueberry-600 border border-blueberry-300 rounded-md'
+        />
       </div>
     </div>
   )
