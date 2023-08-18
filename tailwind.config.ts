@@ -58,7 +58,7 @@ const config: Config = {
         pistachio: '#D3FFCC',
         cream: '#E2DFCD',
         foam: '#D7DAE2',
-        snow: ''
+        snow: '#FFFFFF'
       },
     },
   },
